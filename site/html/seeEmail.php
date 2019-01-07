@@ -43,17 +43,21 @@
 
    
    //// SQLite queries ////
-   $query_email_user =<<<EOF
-   SELECT rowid, * FROM  Messages WHERE emailTo LIKE '$username' ORDER BY timeDate DESC LIMIT '$startFrom', '$emailsPerPage';
-EOF;
-
-  $query_count_rows =<<<EOF
-  SELECT COUNT(*) as count FROM Messages WHERE emailTo LIKE '$username';
-EOF;
+   $query_email_user = 'SELECT rowid, * FROM Messages WHERE emailTo LIKE :username ORDER BY timeDate DESC LIMIT :startFrom, :emailsPerPage';
+   $query_count_rows = 'SELECT COUNT(*) as count FROM Messages WHERE emailTo LIKE :username';
   /////////////////////////
-   $ret = $db->query($query_email_user);
 
-   while($data = $ret->fetchArray(SQLITE3_ASSOC)){
+  $preparedStatement_email_user = $db->prepare($query_email_user);
+  $preparedStatement_email_user->bindParam(':username', $username);
+  $preparedStatement_email_user->bindParam(':startFrom', $startFrom);
+  $preparedStatement_email_user->bindParam(':emailsPerPage', $emailsPerPage);
+
+  $preparedStatement_count_rows = $db->prepare($query_count_rows);
+  $preparedStatement_count_rows->bindParam(':username', $username);
+
+   $ret_email_user = $preparedStatement_email_user->execute();
+
+   while($data = $ret_email_user->fetchArray(SQLITE3_ASSOC)){
     $id = $data['rowid'];
     array_push($emailsID, $id);
     echo 'FROM : ' . $data['emailFrom'] . '</br>';
@@ -70,8 +74,8 @@ EOF;
   
 
   // Pagination (10 emails per page)
-  $totalRows = $db->query($query_count_rows);
-  $totalRows = $totalRows->fetchArray(SQLITE3_ASSOC);
+  $ret_count_rows = $preparedStatement_count_rows->execute();
+  $totalRows = $ret_count_rows->fetchArray(SQLITE3_ASSOC);
   $totalRows = $totalRows['count'];
   $totalPages = ceil($totalRows / $emailsPerPage);
   $pageLink = "<div class='pagination'>";
@@ -86,11 +90,11 @@ EOF;
 
     /* handle 'read' */
     if(isset($_POST["read$emailID"])) { 
-      $query_select_email_by_id =<<<EOF
-      SELECT * FROM Messages WHERE rowid = $emailID;
-EOF;
-      $ret = $db->query($query_select_email_by_id);
-      $data = $ret->fetchArray(SQLITE3_ASSOC);
+      $query_select_email_by_id = 'SELECT * FROM Messages WHERE rowid = :emailID';
+      $preparedStatement_select_email = $db->prepare($query_select_email_by_id);
+      $preparedStatement_select_email->bindParam(':emailID', $emailID);
+      $ret_select_email = $preparedStatement_select_email->execute();
+      $data = $ret_select_email->fetchArray(SQLITE3_ASSOC);
 
       $_SESSION['readEmailFrom'] = $data['emailFrom'];
       $_SESSION['readEmailTo'] = $data['emailTo'];
@@ -102,11 +106,12 @@ EOF;
 
     /* handle 'answer' */
     else if(isset($_POST["answer$emailID"])) { 
-      $query_from_email =<<<EOF
-      SELECT emailTo, subject FROM Messages WHERE rowid = $emailID;
-EOF;
-      $ret = $db->query($query_from_email);
-      $data = $ret->fetchArray(SQLITE3_ASSOC);
+      $query_from_email = 'SELECT emailTo, subject FROM Messages WHERE rowid = :emailID';
+      $preparedStatement_select_emailTo = $db->prepare($query_from_email);
+      $preparedStatement_select_emailTo->bindParam(':emailID', $emailID);
+
+      $ret_select_emailTo = $preparedStatement_select_emailTo->execute();
+      $data = $ret_select_emailTo->fetchArray(SQLITE3_ASSOC);
 
       $_SESSION["emailTo"] = $data["emailTo"];
       $_SESSION["subject"] = "RE:".$data["subject"];     
@@ -115,11 +120,12 @@ EOF;
 
     /* handle 'delete' */
     else if(isset($_POST["delete$emailID"])) {
-      $query_delete_email =<<<EOF
-      DELETE FROM Messages WHERE rowid = $emailID;
-EOF;
-   $db->exec($query_delete_email);
-   echo "<meta http-equiv='refresh' content='0'>"; // refresh the page
+      $query_delete_email = 'DELETE FROM Messages WHERE rowid = :emailID';
+      $preparedStatement_delete_email = $db->prepare($query_delete_email);
+      $preparedStatement_delete_email->bindParam(':emailID', $emailID);
+      $preparedStatement_delete_email->execute();
+
+     echo "<meta http-equiv='refresh' content='0'>"; // refresh the page
   }
 }
 

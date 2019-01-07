@@ -51,19 +51,22 @@
   }
 
   $username=$_SESSION["username"];
-  $to = $_POST['to'];
-  $object = $_POST['object'];
-  $email_text = $_POST["email_text"];
+  $emailTo = $_POST['to'];
+  $subject = $_POST['object'];
+  $message = $_POST["email_text"];
   $now = date('Y-m-d H:i:s');
 
    $db = new MyDB();
 
-   $query_insert_email =<<<EOF
-   INSERT INTO Messages (emailFrom,emailTo,subject,message,timeDate) VALUES ('$username','$to','$object','$email_text','$now');
-EOF;
-
-
-  $db->exec($query_insert_email);
+   $query_insert_email = 'INSERT INTO Messages(emailFrom, emailTo, subject, message, timeDate) VALUES(:username, :emailTo, :subject, :message, :timeDate)';
+   $preparedStatement_insert_email = $db->prepare($query_insert_email);
+   $preparedStatement_insert_email->bindParam(':username', $username);
+   $preparedStatement_insert_email->bindParam(':emailTo', $emailTo);
+   $preparedStatement_insert_email->bindParam(':subject', $subject);
+   $preparedStatement_insert_email->bindParam(':message', $message);
+   $preparedStatement_insert_email->bindParam(':timeDate', $now);
+  
+   $preparedStatement_insert_email->execute();
    echo "Email successfully sent.";
   }
   ?>

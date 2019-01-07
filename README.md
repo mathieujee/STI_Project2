@@ -18,3 +18,6 @@ Date: January 2019
 
    `CONTAINER_IP_ADRESS:8080`
 
+## TODOs
+
+update user: si moins de paramètres fournis => ne pas modifier les anciens

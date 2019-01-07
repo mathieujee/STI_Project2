@@ -39,27 +39,26 @@ session_start();
     }
   }
   
-  $username=$_POST["reg_firstname"];
-  $pass = $_POST['reg_pass'];
-  $active = $_POST['isActive'];
-  $admin = $_POST["isAdmin"];
+  $username = strip_tags($_POST["reg_firstname"]);
+  $pass = hash('sha256', strip_tags($_POST['reg_pass']));
+  $active = strip_tags($_POST['isActive']);
+  $admin = strip_tags($_POST["isAdmin"]);
 
-  echo $active;
-  echo $admin;
    $db = new MyDB();
    if(!$db) {
       echo $db->lastErrorMsg();
-   } else {
-      echo "Opened database successfully\n" . '</br>';
-   }
+   } 
 
    if(($active == "1" or $active == "0") && ( $admin == "1" or  $admin == "0")){
-   $query_update_user =<<<EOF
-   UPDATE Users SET hashedPassword='$pass', active='$active', permissionLevel='$admin' WHERE username like '$username';
-EOF;
+   $query_update_user = 'UPDATE Users SET hashedPassword = :pass, active = :active, permissionLevel = :permissionLevel WHERE username LIKE :username';
+   $preparedStatement_update_user = $db->prepare($query_update_user);
+   $preparedStatement_update_user->bindParam(':pass', $pass);
+   $preparedStatement_update_user->bindParam(':active', $active);
+   $preparedStatement_update_user->bindParam(':permissionLevel', $admin);
+   $preparedStatement_update_user->bindParam(':username', $username);
 
     try{
-     $db->exec($query_update_user);
+     $preparedStatement_update_user->execute();
     }catch(Exception $e){
       echo "Wrong input";
     }
