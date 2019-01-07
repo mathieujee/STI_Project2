@@ -1,8 +1,8 @@
-# STI_Projet_1
+# STI_Project2
 
-Authors: Mathieu Jee, Florent Nicolas Piller
+Authors: Mathieu Jee, Romain Silvestri
 
-Date: October 2018
+Date: January 2019
 
 ## Setup the application with docker
 
