@@ -25,13 +25,11 @@
   $username = strip_tags($_POST['username']);
   $password = hash('sha256', strip_tags($_POST['password'])); 
   
-  $query_verify_login = <<<EOF
-  SELECT hashedPassword,active,permissionLevel FROM Users WHERE username like '$username';
-EOF;
- 
-  $ret = $db->query($query_verify_login);
-
-  $data = $ret->fetchArray(SQLITE3_ASSOC);
+  $query_verify_login = 'SELECT hashedPassword, active, permissionLevel FROM Users WHERE username like :username';
+  $preparedStatement = $db->prepare($query_verify_login);
+  $preparedStatement->bindParam(':username', $username);
+  $data = $preparedStatement->execute();
+  $data = $data->fetchArray();
 
   if($password === $data['hashedPassword']) {
     /*Session is started if you don't write this line can't use $_Session  global variable */

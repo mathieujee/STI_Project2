@@ -5,21 +5,19 @@ session_start();
   }
 ?>
 
-
-
 <!DOCTYPE html>
 <html>
    <head>
-       <title>Registration</title>
+       <title>Delete User</title>
        <meta charset="utf-8" />
    </head>
    <body>
 		<h1>
-			Update an account<br />
+			Delete a User<br />
 		</h1>
 		
 		<form action="deleteUser.php" method="post">
-				Firstname <input type="text" name="del_firstname"/><br/>
+				Username <input type="text" name="del_firstname"/><br/>
         <input type="submit" value="Delete User"/>
 		</form>
     <form action="target2.php" method="post">
@@ -36,15 +34,15 @@ session_start();
   }
   
   $username=$_POST["del_firstname"];
-   $db = new MyDB();
+  $db = new MyDB();
 
-   $query_del_user =<<<EOF
-   DELETE FROM Users WHERE username like '$username';
-EOF;
+  $query_del_user = 'DELETE FROM Users WHERE username like :username';
+  $preparedStatement = $db->prepare($query_del_user);
+  $preparedStatement->bindParam(':username', $username);
 
-    try{
-     $db->exec($query_del_user);
-    }catch(Exception $e){
+  try{
+    $preparedStatement->execute();
+    } catch(Exception $e){
       echo "Wrong input";
     }
   }

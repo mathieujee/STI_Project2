@@ -39,17 +39,23 @@ session_start();
   $pass = hash('sha256', strip_tags($_POST['reg_pass']));
   $active = $_POST['isActive'];
   $admin = $_POST["isAdmin"];
+
    $db = new MyDB();
    if(!$db) {
       echo $db->lastErrorMsg();
-   } else {
-   }
-   if(($active == "1" or $active == "0") && ( $admin == "1" or  $admin == "0")){
-   $query_insert_user =<<<EOF
-   INSERT INTO Users (username,hashedPassword,active,permissionLevel) VALUES ('$username','$pass','$active','$admin');
-EOF;
+   } 
+
+   if(($active == "1" or $active == "0") && ( $admin == "1" or  $admin == "0")) {
+   
+    $query_insert_user = 'INSERT INTO Users(username, hashedPassword, active, permissionLevel) VALUES (:username, :password, :active, :permissionLevel)';
+  $preparedStatement = $db->prepare($query_insert_user);
+  $preparedStatement->bindParam(':username', $username);
+  $preparedStatement->bindParam(':password', $pass);
+  $preparedStatement->bindParam(':active', $active);
+  $preparedStatement->bindParam(':permissionLevel', $admin);
+  
   try{
-   $db->exec($query_insert_user);
+    $data = $preparedStatement->execute();
     echo "User created ";
   }catch(Exception $e){
     echo "wrong input";
