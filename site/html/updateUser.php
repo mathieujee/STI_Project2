@@ -22,11 +22,11 @@ session_start();
         Password <input type="text" name="reg_pass"/><br/>
         isActive <input type="radio" name="isActive"value="0">No
                  <input type="radio" name="isActive"value="1">Yes       <br/>
-  isAdmin <input type="radio" name="isAdmin"value="0">No
+        isAdmin <input type="radio" name="isAdmin"value="0">No
     <input type="radio" name="isAdmin"value="1">Yes       <br/>
         <input type="submit" value="Update"/>
 		</form>
-    <form action="target2.php" method="post">
+    <form action="target.php" method="post">
                 <input type="submit" name ="getBack" value="Back to menu"/>
 		</form>
 

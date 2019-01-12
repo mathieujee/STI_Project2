@@ -23,7 +23,7 @@ session_start();
                  <input type="radio" name="isAdmin"value="1">Yes       <br/>
         <input type="submit" value="Register"/>
 		</form>
-    <form action="target2.php" method="post">
+    <form action="target.php" method="post">
                 <input type="submit" name ="getBack" value="Back to menu"/>
 		</form>
 
