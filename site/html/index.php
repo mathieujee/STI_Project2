@@ -7,6 +7,7 @@ session_start();
    <head>
        <title>Login</title>
        <meta charset="utf-8" />
+       <script src='https://www.google.com/recaptcha/api.js'></script>
    </head>
    <body>
 		<h1>
@@ -16,6 +17,7 @@ session_start();
 		<form action="target.php" method="post">
                 Username <input type="text" name="username"/>    <br/>
                 Password <input type="password" name="password"/> <br/>
+                <div class="g-recaptcha" data-sitekey="6LflNYkUAAAAAE96kMp9qFlePkKItgub7wgwhveo"></div> </br>
                 <input type="submit" value="Login"/>
 		</form>
     <?php
