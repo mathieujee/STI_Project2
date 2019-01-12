@@ -1,13 +1,14 @@
  <?php
   session_start();
 
-  if(isset($_SESSION["username"]) and $_SESSION["level"] == 1){
-    header("Location: target2.php");
-  }
-
-
   if(!isset($_SESSION["username"]) or $_SESSION["active"] == 0){
-     if ((!isset($_POST['username']) OR !isset($_POST['password']))) {
+    $captcha=$_POST['g-recaptcha-response'];
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $secretkey = "6LflNYkUAAAAAGehuA7KN8h6Hyl59XxBzSDufFBk";					
+    $response=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$secretkey."&response=".$captcha."&remoteip=".$ip);
+    $responseKeys = json_decode($response,true);
+
+     if ((!isset($_POST['username']) OR !isset($_POST['password']) OR (intval($responseKeys["success"]) !== 1))) {
       header("Location: index.php");
     }
     
@@ -36,9 +37,7 @@
     $_SESSION["username"]=$username;
     $_SESSION["level"]=$data["permissionLevel"];
     $_SESSION["active"]=$data["active"];
-    if( $_SESSION["level"] == 1) {
-      header("Location: target2.php");
-    }
+
     if($_SESSION["active"]  == 0 ) {
        header("Location: index.php");
     }
@@ -66,6 +65,19 @@
 		<form action="changePassword.php" method="post">
       <input type="submit" value="Change your password"/>
     </form>
+    <?php
+    if($_SESSION["level"] == 1) {
+      echo('<form action="deleteUser.php" method="post">');
+      echo('<input type="submit" value="Delete user"/>');
+      echo('</form>');
+      echo('<form action="updateUser.php" method="post">');
+      echo('<input type="submit" value="Update user info"/>');
+      echo('</form>');
+      echo('<form action="registration.php" method="post">');
+      echo('<input type="submit" value="Add a new user"/>');
+      echo('</form>');
+    }
+    ?>
     <form action="logout.php" method="post">
       <input type="submit" value="Logout"/>
     </form>

@@ -20,7 +20,7 @@ session_start();
 				Username <input type="text" name="del_firstname"/><br/>
         <input type="submit" value="Delete User"/>
 		</form>
-    <form action="target2.php" method="post">
+    <form action="target.php" method="post">
                 <input type="submit" name ="getBack" value="Back to menu"/>
 		</form>
 
