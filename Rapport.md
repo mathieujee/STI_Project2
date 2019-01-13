@@ -7,24 +7,22 @@ Date: Janvier 2019
 ## Table of content
 
 
-
-
-
 ## Introduction
-
+Le but de ce projet est de sécuriser une application de messagerie. Cette application ayant été réalisée par un groupe d'étudiant, il est plus que probable qu'elle présente des failles pouvant compromettre sa sécurité. Il faut donc trouver ces failles, les documenter et appliquer un correctif. Les corretifs appliqués ne doivent en rien changer le fonctionnement du service. Celui-ci remplir le même cahier des charges que pour l'étape 1. 
 
 
 ## Description du système
 
 ### DFD
 
+![image](dfd.jpg)
 
 
 ### Biens
 
-Les seuls biens que contient cette application sont les informations client. Elles se composent : du nom de l’utilisateur, du hash de son mot de passe et de la liste de ses emails. 
-
-**CLE PRIVEE CAPTCHA**
+Les biens que contient cette application sont: 
+- les informations client. Elles se composent : du nom de l’utilisateur, du hash de son mot de passe et de la liste de ses emails.
+- La clé privée reCaptcha utilisée pour envoyer les données du cpatcha au serveur pour la vérification.
 
 
 
@@ -48,29 +46,13 @@ Le login de l’application est un lieu d’attaque très probable. La motivatio
 
 Cette attaque est de type : "Elevation of Privilege" et, dans un deuxième temps, "Information disclosure".
 
-
-
  ### Base de données
 
 Les requêtes effectuées par l’application à la base de données étaient vulnérables. En effet, il était possible d’effectuer des injections SQL lors de celles-ci. Le but de cette attaque est d’accéder aux informations contenues dans la base de données et de potentiellement les modifier afin de la corrompre en changeant son contenu.
 
-Cette attaque est de type : "Information disclosure" et **"Tampering".**
+Cette attaque est de type : "Information disclosure" et "Tampering".
 
-### Éléments du système attaqué
-
-
-
-### Motivations
-
-
-
-### Scénario
-
-
-
-### STRIDE
-
-
+### Session
 
 ## Contre-mesures
 
@@ -86,6 +68,7 @@ L'introduction d'un captcha lors de la connexion peut être contraignant d'un po
 
 Afin de se protéger contre ce type d’attaque, nous avons changé les requêtes effectuées à la base de données par des "prepared statement" afin de prévenir tout risque d’injections SQL. 
 
+### Session
  
 
 ## Conclusion
