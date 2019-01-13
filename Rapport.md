@@ -6,6 +6,7 @@ Date: Janvier 2019
 
 ## Table of content
 
+**error_reporting(0);**
 
 ## Introduction
 Le but de ce projet est de sécuriser une application de messagerie. Cette application ayant été réalisée par un groupe d'étudiant, il est plus que probable qu'elle présente des failles pouvant compromettre sa sécurité. Il faut donc trouver ces failles, les documenter et appliquer un correctif. Les corretifs appliqués ne doivent en rien changer le fonctionnement du service. Celui-ci remplir le même cahier des charges que pour l'étape 1. 
@@ -26,7 +27,7 @@ Les biens que contient cette application sont:
 
 
 
-###Périmètre de sécurisation
+### Périmètre de sécurisation
 
 Comme on peut le voir sur le diagramme ci-dessus, l’application possède une zone sécurisée qu’il n’est pas possible d’atteindre sans se connecter. Cette zone est séparée en deux parties : la partie utilisateur qui est accessible par les utilisateurs normaux et les administrateurs et la partie administrateur qui est accessible seulement par ces derniers.
 
