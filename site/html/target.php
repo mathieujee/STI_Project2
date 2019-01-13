@@ -1,4 +1,6 @@
  <?php
+ error_reporting(E_ALL);
+ ini_set("display_errors", 1);
   session_start();
 
   if(!isset($_SESSION["username"]) or $_SESSION["active"] == 0){
@@ -8,8 +10,10 @@
     $response=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$secretkey."&response=".$captcha."&remoteip=".$ip);
     $responseKeys = json_decode($response,true);
 
-     if ((!isset($_POST['username']) OR !isset($_POST['password']) OR (intval($responseKeys["success"]) !== 1))) {
+    if (!isset($_POST['username']) OR !isset($_POST['password']) OR (intval($responseKeys["success"]) !== 1)) {
       header("Location: index.php");
+      echo $response;
+
     }
     
    
@@ -23,8 +27,8 @@
   }
   $db = new MyDB();
 
-  $username = strip_tags($_POST['username']);
-  $password = hash('sha256', strip_tags($_POST['password'])); 
+  $username = strip_tags(trim($_POST['username']));
+  $password = hash('sha256', strip_tags(trim($_POST['password']))); 
   
   $query_verify_login = 'SELECT hashedPassword, active, permissionLevel FROM Users WHERE username like :username';
   $preparedStatement = $db->prepare($query_verify_login);
