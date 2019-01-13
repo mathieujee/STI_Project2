@@ -28,38 +28,41 @@
 <?php
 
 if(isset($_POST['old_password']) and isset($_POST['new_password'])){
-
-  class MyDB extends SQLite3 {
-    function __construct() {
-      $this->open('../databases/database.sqlite');
+  if(strlen(trim($_POST['new_password'])) < 8 ){
+    echo 'password to short, 8 char min';
+  }else{
+    class MyDB extends SQLite3 {
+      function __construct() {
+        $this->open('../databases/database.sqlite');
+      }
     }
-  }
 
-  $db = new MyDB();
+    $db = new MyDB();
 
-  $newpassword = hash('sha256', strip_tags($_POST["new_password"]));
-  $username = $_SESSION["username"];
+    $newpassword = hash('sha256', strip_tags($_POST["new_password"]));
+    $username = $_SESSION["username"];
 
-  $query_change_password_user = 'UPDATE Users SET hashedPassword = :newPassword WHERE username LIKE :username';
-  $query_verify_login = 'SELECT hashedPassword FROM Users WHERE username LIKE :username';
-  
-  $preparedStatement1 = $db->prepare($query_change_password_user);
-  $preparedStatement2 = $db->prepare($query_verify_login);
+    $query_change_password_user = 'UPDATE Users SET hashedPassword = :newPassword WHERE username LIKE :username';
+    $query_verify_login = 'SELECT hashedPassword FROM Users WHERE username LIKE :username';
+    
+    $preparedStatement1 = $db->prepare($query_change_password_user);
+    $preparedStatement2 = $db->prepare($query_verify_login);
 
-  $preparedStatement1->bindParam(':newPassword', $newpassword);
-  $preparedStatement1->bindParam(':username', $username);
+    $preparedStatement1->bindParam(':newPassword', $newpassword);
+    $preparedStatement1->bindParam(':username', $username);
 
-  $preparedStatement2->bindParam('username', $username);
+    $preparedStatement2->bindParam('username', $username);
 
-  $result = $preparedStatement2->execute();
-  $data = $result->fetchArray();
+    $result = $preparedStatement2->execute();
+    $data = $result->fetchArray();
 
-  if(hash('sha256', strip_tags($_POST["old_password"])) === $data['hashedPassword'] ) {
-    /* session is started if you don't write this line can't use $_Session  global variable */
-    $preparedStatement1->execute();
-    echo "Password changed";
-  } else {
-    echo "Wrong inputs";
+    if(hash('sha256', strip_tags($_POST["old_password"])) === $data['hashedPassword'] ) {
+      /* session is started if you don't write this line can't use $_Session  global variable */
+      $preparedStatement1->execute();
+      echo "Password changed";
+    } else {
+      echo "Wrong inputs";
+    }
   }
 }
 ?>

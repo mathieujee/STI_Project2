@@ -12,11 +12,7 @@
 
     if (!isset($_POST['username']) OR !isset($_POST['password']) OR (intval($responseKeys["success"]) !== 1)) {
       header("Location: index.php");
-      echo $response;
-
-    }
-    
-   
+     }
 
   //https://stackoverflow.com/questions/16728265/how-do-i-connect-to-an-sqlite-database-with-php
 
