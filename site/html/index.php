@@ -1,6 +1,7 @@
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
+
 session_start();
 ?>
 
@@ -19,7 +20,7 @@ session_start();
 		<form action="target.php" method="post">
                 Username <input type="text" name="username"/>    <br/>
                 Password <input type="password" name="password"/> <br/>
-                <div class="g-recaptcha" data-sitekey="6LflNYkUAAAAAE96kMp9qFlePkKItgub7wgwhveo"></div> <br/>
+                <!--<div class="g-recaptcha" data-sitekey="6LflNYkUAAAAAE96kMp9qFlePkKItgub7wgwhveo"></div> <br/>-->
                 <input type="submit" value="Login"/>
 		</form>
     <?php

@@ -27,10 +27,23 @@
 		</form>
 <?php
 
-if(isset($_POST['old_password']) and isset($_POST['new_password'])){
-  if(strlen(trim($_POST['new_password'])) < 8 ){
-    echo 'password to short, 8 char min';
-  }else{
+if(isset($_POST['old_password']) and isset($_POST['new_password']) and !empty($_POST['old_password']) and !empty($_POST['new_password'])) {
+  $newPassword = strip_tags(trim($_POST['new_password']));
+
+  if(strlen($newPassword) < 8) {
+     echo 'Your new password is to short: 8 chars min !';
+  } 
+  else if(!preg_match("#[0-9]+#", $newPassword)) {
+    echo 'Your new password must contain at least 1 number !"';
+  }
+  else if(!preg_match("#[A-Z]+#", $newPassword)) {
+    echo 'Your new password must contain as least 1 capital letter !';
+  }
+  else if(!preg_match("#[a-z]+#", $newPassword)) {
+    echo 'Your new password must contain at least 1 lowercase letter !';
+  }
+  
+  else {
     class MyDB extends SQLite3 {
       function __construct() {
         $this->open('../databases/database.sqlite');
@@ -39,7 +52,7 @@ if(isset($_POST['old_password']) and isset($_POST['new_password'])){
 
     $db = new MyDB();
 
-    $newpassword = hash('sha256', strip_tags($_POST["new_password"]));
+    $newpassword = hash('sha256', $newPassword);
     $username = $_SESSION["username"];
 
     $query_change_password_user = 'UPDATE Users SET hashedPassword = :newPassword WHERE username LIKE :username';

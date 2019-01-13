@@ -25,7 +25,7 @@ session_start();
 		</form>
 
     <?php
-  if(isset($_POST['del_firstname'])) {
+  if(isset($_POST['del_firstname']) and !empty($_POST['del_firstname'])) {
 
   class MyDB extends SQLite3 {
     function __construct() {
@@ -33,7 +33,7 @@ session_start();
     }
   }
   
-  $username=$_POST["del_firstname"];
+  $username= htmlspecialchars($_POST["del_firstname"]);
   $db = new MyDB();
 
   $query_del_user = 'DELETE FROM Users WHERE username like :username';

@@ -29,19 +29,32 @@ session_start();
 
     <?php
       if(isset($_POST['reg_firstname']) and isset($_POST['reg_pass']) and isset($_POST["isActive"]) and isset($_POST["isAdmin"])) {
-        if(strlen(trim($_POST['reg_pass'])) < 8 ){
-          echo 'password to short, 8 char min';
-        }else{
+        $password = strip_tags(trim($_POST['reg_pass']));
+        
+        if(strlen($password) < 8 ) {
+          echo 'The password is to short: 8 chars min !';
+        } 
+        else if(!preg_match("#[0-9]+#", $password)) {
+          echo 'The password must contain at least 1 number !"';
+        }
+        else if(!preg_match("#[A-Z]+#", $password)) {
+          echo 'The password must contain as least 1 capital letter !';
+        }
+        else if(!preg_match("#[a-z]+#", $password)) {
+          echo 'The password must contain at least 1 lowercase letter !';
+        }
+        
+        else {
           class MyDB extends SQLite3 {
             function __construct() {
               $this->open('../databases/database.sqlite');
             }
           }
           
-          $username=$_POST["reg_firstname"];
-          $pass = hash('sha256', strip_tags($_POST['reg_pass']));
-          $active = $_POST['isActive'];
-          $admin = $_POST["isAdmin"];
+          $username= strip_tags($_POST["reg_firstname"]);
+          $pass = hash('sha256', $password);
+          $active = strip_tags($_POST['isActive']);
+          $admin = strip_tags($_POST["isAdmin"]);
 
           $db = new MyDB();
           if(!$db) {
@@ -51,21 +64,25 @@ session_start();
           if(($active == "1" or $active == "0") && ( $admin == "1" or  $admin == "0")) {
           
             $query_insert_user = 'INSERT INTO Users(username, hashedPassword, active, permissionLevel) VALUES (:username, :password, :active, :permissionLevel)';
-          $preparedStatement = $db->prepare($query_insert_user);
-          $preparedStatement->bindParam(':username', $username);
-          $preparedStatement->bindParam(':password', $pass);
-          $preparedStatement->bindParam(':active', $active);
-          $preparedStatement->bindParam(':permissionLevel', $admin);
+            $preparedStatement = $db->prepare($query_insert_user);
+            $preparedStatement->bindParam(':username', $username);
+            $preparedStatement->bindParam(':password', $pass);
+            $preparedStatement->bindParam(':active', $active);
+            $preparedStatement->bindParam(':permissionLevel', $admin);
           
-          try{
-            $data = $preparedStatement->execute();
-            echo "User created ";
-          }catch(Exception $e){
-            echo "wrong input";
+            try{
+              $data = $preparedStatement->execute();
+              echo "User created ";
+            }catch(Exception $e){
+              echo "wrong input(s)";
+            }
+          
           }
           
-          }
         }
+      }
+      else {
+        echo "wrong input(s)";
       }
     ?>
    </body>

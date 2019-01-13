@@ -32,9 +32,21 @@ session_start();
 
     <?php
       if(isset($_POST['reg_firstname']) and isset($_POST['reg_pass']) and isset($_POST["isActive"]) and isset($_POST["isAdmin"])) {
-        if(strlen(trim($_POST['reg_pass'])) < 8 ){
-          echo 'password to short, 8 char min';
-        }else{
+        $newPassword = strip_tags(trim($_POST['reg_pass']));
+
+        if(strlen($newPassword) < 8  && strlen($newPassword) > 0) {
+            echo 'The password is to short: 8 chars min !';
+        } 
+        else if(!preg_match("#[0-9]+#", $newPassword) && strlen($newPassword) > 0) {
+          echo 'The password must contain at least 1 number !"';
+        }
+        else if(!preg_match("#[A-Z]+#", $newPassword) && strlen($newPassword) > 0) {
+          echo 'The password must contain as least 1 capital letter !';
+        }
+        else if(!preg_match("#[a-z]+#", $newPassword) && strlen($newPassword) > 0) {
+          echo 'The password must contain at least 1 lowercase letter !';
+        }
+        else {
 
           class MyDB extends SQLite3 {
             function __construct() {
@@ -43,7 +55,7 @@ session_start();
           }
           
           $username = strip_tags($_POST["reg_firstname"]);
-          $pass = hash('sha256', strip_tags($_POST['reg_pass']));
+          $pass = hash('sha256', $newPassword);
           $active = strip_tags($_POST['isActive']);
           $admin = strip_tags($_POST["isAdmin"]);
 
@@ -52,21 +64,36 @@ session_start();
               echo $db->lastErrorMsg();
           } 
 
-          if(($active == "1" or $active == "0") && ( $admin == "1" or  $admin == "0")){
-          $query_update_user = 'UPDATE Users SET hashedPassword = :pass, active = :active, permissionLevel = :permissionLevel WHERE username LIKE :username';
-          $preparedStatement_update_user = $db->prepare($query_update_user);
-          $preparedStatement_update_user->bindParam(':pass', $pass);
-          $preparedStatement_update_user->bindParam(':active', $active);
-          $preparedStatement_update_user->bindParam(':permissionLevel', $admin);
-          $preparedStatement_update_user->bindParam(':username', $username);
+          if(strlen($newPassword) == 0) {
+            $query_update_user = 'UPDATE Users SET active = :active, permissionLevel = :permissionLevel WHERE username LIKE :username';
+            $preparedStatement_update_user = $db->prepare($query_update_user);
+            $preparedStatement_update_user->bindParam(':active', $active);
+            $preparedStatement_update_user->bindParam(':permissionLevel', $admin);
+            $preparedStatement_update_user->bindParam(':username', $username);
 
-            try{
-            $preparedStatement_update_user->execute();
-            }catch(Exception $e){
+            try {
+              $preparedStatement_update_user->execute();
+            } catch(Exception $e) {
               echo "Wrong input";
             }
+          }
 
-          }else{
+          else if(($active == "1" or $active == "0") && ( $admin == "1" or  $admin == "0")) {
+            $query_update_user = 'UPDATE Users SET hashedPassword = :pass, active = :active, permissionLevel = :permissionLevel WHERE username LIKE :username';
+            $preparedStatement_update_user = $db->prepare($query_update_user);
+            $preparedStatement_update_user->bindParam(':pass', $pass);
+            $preparedStatement_update_user->bindParam(':active', $active);
+            $preparedStatement_update_user->bindParam(':permissionLevel', $admin);
+            $preparedStatement_update_user->bindParam(':username', $username);
+
+            try {
+              $preparedStatement_update_user->execute();
+            } catch(Exception $e) {
+              echo "Wrong input";
+            }
+          }
+          
+          else {
             echo "Wrong input ";
           }
         }

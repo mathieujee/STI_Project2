@@ -4,7 +4,7 @@
   session_start();
 
   if(!isset($_SESSION["username"]) or $_SESSION["active"] == 0){
-    $captcha=$_POST['g-recaptcha-response'];
+    /*$captcha=$_POST['g-recaptcha-response'];
     $ip = $_SERVER['REMOTE_ADDR'];
     $secretkey = "6LflNYkUAAAAAGehuA7KN8h6Hyl59XxBzSDufFBk";					
     $response=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$secretkey."&response=".$captcha."&remoteip=".$ip);
@@ -12,6 +12,10 @@
 
     if (!isset($_POST['username']) OR !isset($_POST['password']) OR (intval($responseKeys["success"]) !== 1)) {
       header("Location: index.php");
+     }*/
+
+     if(!isset($_POST['username']) OR !isset($_POST['password'])) {
+       header("Location: index.php");
      }
 
   //https://stackoverflow.com/questions/16728265/how-do-i-connect-to-an-sqlite-database-with-php
@@ -33,7 +37,7 @@
   $data = $data->fetchArray();
 
   if($password === $data['hashedPassword']) {
-    /*Session is started if you don't write this line can't use $_Session  global variable */
+  
     $_SESSION["username"]=$username;
     $_SESSION["level"]=$data["permissionLevel"];
     $_SESSION["active"]=$data["active"];

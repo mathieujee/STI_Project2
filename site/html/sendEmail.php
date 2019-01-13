@@ -51,9 +51,9 @@
   }
 
   $username=$_SESSION["username"];
-  $emailTo = $_POST['to'];
-  $subject = $_POST['object'];
-  $message = $_POST["email_text"];
+  $emailTo = strip_tags(trim($_POST['to']));
+  $subject = htmlspecialchars($_POST['object']);
+  $message = htmlspecialchars($_POST["email_text"]);
   $now = date('Y-m-d H:i:s');
 
    $db = new MyDB();

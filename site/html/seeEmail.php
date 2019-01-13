@@ -21,7 +21,11 @@
   $emailsPerPage = 4;
 
   if(isset($_GET['page'])) {
-    $page = $_GET['page'];
+    $page = strip_tags(trim($_GET['page']));
+    
+    if($page < 1 OR !is_numeric($page)) {
+      $page = 1;
+    }
   }
   else {
     $page = 1;
