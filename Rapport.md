@@ -54,13 +54,18 @@ Cette attaque est de type : "Information disclosure" et "Tampering".
 
 ### Session
 
+### XSS
+Les entrées de l'utilisateur au niveau des emails n'étaient pas vérifiées. Il était donc possible d'envoyer un script à un autre utilisateur qui s'exécute lorsque le destinataire ouvre l'email. Une faille de ce type peut permettre à l'attaquant de voler des informations de session popre à l'utilisateur. Il pourrait aussi rendre l'utilisation du site impossible pour l'utilisateur.
+
+Cette attaque est de type: "Tampering" et potentiellement, "Denial of Service".
+
 ## Contre-mesures
 
 ### Login
 
 Afin d’empêcher ce type d’attaque, nous avons rajouté un captcha à remplir lors de chaque tentative de login. Cette mesure empêche l’utilisation de scripts permettant de brute-forcer le mot de passe et rend donc ce type d’attaque beaucoup plus compliqué et beaucoup plus gourmand en temps.
 
-De plus, nous avons rajouté un nombre minimal de caractère pour le mot de passe de l’utilisateur. Il faut maintenant que le mot de passe soit composé de 8 caractères ou plus. Cette modification permet de rallonger encore le temps nécessaire pour effectuer une attaque par brute-force
+De plus, nous avons rajouté un nombre minimal de caractère pour le mot de passe de l’utilisateur. Il faut maintenant que le mot de passe soit composé de 8 caractères ou plus, d'un chiffre, d'une miniscule et d'une majuscule au minimum. Cette modification permet de rallonger encore le temps nécessaire pour effectuer une attaque par brute-force
 
 L'introduction d'un captcha lors de la connexion peut être contraignant d'un point de vue utilisateur. Il serait peut-être plus judicieux, dans ce cas là, de demander la validation d'un captcha après 2 ou 3 tentatives de connexion échouée. Ainsi, l'utilisateur n'aura pas besoin d'utiliser de captcha lorsqu'il se connecte, ni même s'il fait une erreur dans l'introduction de son mot de passe. De plus, cette solution reste robuste face à une attaque de type brute-force.
 
@@ -69,6 +74,9 @@ L'introduction d'un captcha lors de la connexion peut être contraignant d'un po
 Afin de se protéger contre ce type d’attaque, nous avons changé les requêtes effectuées à la base de données par des "prepared statement" afin de prévenir tout risque d’injections SQL. 
 
 ### Session
+
+### XSS
+Afin de corriger ce problème, nous avons utilisé des fonctions permettant de transformer les données rentrées par l'utilisateur en texte inoffensif. Nous avons appliqué ces fonctions sur le sujet et le contenu des emails envoyés afin d'empêcher toute attaque de ce type.
  
 
 ## Conclusion
