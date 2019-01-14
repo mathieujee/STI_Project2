@@ -143,7 +143,7 @@ Afin de donner le moins d'informations possible sur le code source, ajouter `err
 
 
 ## <a name="conclusion"></a>Conclusion
-Après nos manipulations, l'application reçue est déjà beaucoup plus robuste. La prochaine étape est de'implémenter HTTPS pour chiffrer les transmissions. L'implémentation de ce protocole renforcerait grandement la robustesse de l'application.
+Après nos manipulations, l'application reçue est déjà beaucoup plus robuste. Nous avons corrigé toutes les failles "majeures" que l'on a pu trouver dans une application de ce type. Grâce à ces modifications, il est raisonnable de penser que les attaquants de type "script kiddies" n'arriveront probablement pas à casser le site. Une attaque par un groupe organisé et expérimenté est toujours possible cependant car il n'est jamais possible de garantir une sécurité parfaite quelque soit les efforts fournis.
 
-
+La prochaine étape est d'implémenter HTTPS pour chiffrer les transmissions. L'implémentation de ce protocole renforcerait grandement la robustesse de l'application.
 
