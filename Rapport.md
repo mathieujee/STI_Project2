@@ -79,7 +79,11 @@ Les entrées de l'utilisateur au niveau des emails n'étaient pas vérifiées. I
 
 Cette attaque est de type: "Tampering" et potentiellement, "Denial of Service".
 
-
+### CSRF (Corss-Site Request Forgery)
+CSRF est un exploit commun dans lequel un utilisateur effectue une action sans s'en rendre compte.
+Exemple de scénario: La victime se connecte sur son site web préféré avec ses identifiants. Une fois connecté, elle clique sur
+un lien qui semble inoffensif. En réalité, son email sera remplacé par celui de l'attaquant. Ce dernier n'aura plus qu'à demander 
+un nouveau mot de passe qu'il recevra sur son email.
 
 ## <a name="contremesures"></a>Contre-mesures
 
@@ -129,6 +133,6 @@ Afin de donner le moins d'informations possible sur le code source, ajouter `err
 
 
 ## <a name="conclusion"></a>Conclusion
-Après nos manipulations, l'application reçue est déjà beaucoup plus robuste. La prochaine étape est de'implémenter HTTPS pour chiffrer les transmissions. L'implémentation de ce protocole renforcerait grandement la robustesse de l'application.
+
 
 
