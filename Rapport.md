@@ -41,7 +41,7 @@ Les sources de menace pour cette application sont les personnes voulant avoir ac
 
 ## Scénarios d'attaques
 
-###Login
+### Login
 
 Le login de l’application est un lieu d’attaque très probable. La motivation principale étant que, si l’attaque réussi, on peut avoir accès à un compte utilisateur. De plus, en effectuant quelques recherches, l’attaquant se rend vite compte qu’il n’y a pas de politique de sécurité sur les mots de passe et que aucune protection contre le brute-force n’est mise en place sur le site. Il est donc (plutôt aisé) d’effectuer une attaque par brute force sur un compte admin (ou utilisateur) afin d’obtenir un accès privilégié à l’application. Un accès administrateur permettrait de modifier la base de données facilement et de changer les mots de passe des autres utilisateurs. L’attaquant aurait alors un contrôle total de l’application.
 
@@ -101,7 +101,7 @@ Le protocole *HTTP* propose, de base, quelques *headers* directement lié à la 
 
 - **X-Frame-Options:** protection contre les attaques *clickjacking*. Indique au *browser* s'il a le droit ou non d'afficher le contenu compris dans les balises `<frame>`, `<iframe>`, `<embed>` et`<object>`. Bien que dans ce projet, aucune de ces balises n'est présentes, c'est une bonne pratique d'activer ce *header*. 
 
-###Cookie
+### Cookie
 
 - **HTTPOnly flag**: lorsque ce *flag* est inclus dans les *headers* de la réponse *HTTP*, le cookie ne peut pas être accédé à l'aide d'un script provenant du client. Ainsi, même si le client est victime d'une attaque *XSS*, l'attaquant ne pourra pas récupérer son cookie.
 
