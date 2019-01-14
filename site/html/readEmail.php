@@ -1,4 +1,5 @@
 <?php
+    error_reporting(0);
     session_start();
     if(!isset($_SESSION['username']) or $_SESSION["active"] === 0 and !isset($_SESSION['readEmailFrom']) and
        !isset($_SESSION['readEmailTo']) and !isset($_SESSION['readEmailSubject']) and !isset($_SESSION['readEmailMessage']) and

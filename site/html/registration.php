@@ -1,9 +1,11 @@
 <?php
-session_start();
-  if(!isset($_SESSION['username']) or $_SESSION["active"] == 0 or $_SESSION["level"] == 0) {
-   header("Location: index.php");
-  }
+  error_reporting(0);
+  session_start();
+    if(!isset($_SESSION['username']) or $_SESSION["active"] == 0 or $_SESSION["level"] == 0) {
+    header("Location: index.php");
+    }
 ?>
+
 <!DOCTYPE html>
 <html>
    <head>

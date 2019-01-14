@@ -1,10 +1,9 @@
  <?php
- error_reporting(E_ALL);
- ini_set("display_errors", 1);
+  error_reporting(0);
   session_start();
 
   if(!isset($_SESSION["username"]) or $_SESSION["active"] == 0){
-    /*$captcha=$_POST['g-recaptcha-response'];
+    $captcha=$_POST['g-recaptcha-response'];
     $ip = $_SERVER['REMOTE_ADDR'];
     $secretkey = "6LflNYkUAAAAAGehuA7KN8h6Hyl59XxBzSDufFBk";					
     $response=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$secretkey."&response=".$captcha."&remoteip=".$ip);
@@ -12,7 +11,7 @@
 
     if (!isset($_POST['username']) OR !isset($_POST['password']) OR (intval($responseKeys["success"]) !== 1)) {
       header("Location: index.php");
-     }*/
+     }
 
      if(!isset($_POST['username']) OR !isset($_POST['password'])) {
        header("Location: index.php");
