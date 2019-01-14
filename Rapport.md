@@ -6,19 +6,29 @@ Date: Janvier 2019
 
 ## Table of content
 
+[Introduction](#introduction)
+[Description du système](#description)
+[DFD](#dfd)
+[Biens](#biens)
+[Périmètre de sécurisation](#perimetre)
+[Sources de menaces](#menaces)
+[Scénarios d'attaques](#scénarios)
+[Contre-mesures](#contremesures)
+[Protections supplémentaires](#protectionssupplementaires)
+[Conclusion](#conclusion)
 
-## Introduction
+## <a name="introduction"></a>Introduction
 Le but de ce projet est de sécuriser une application de messagerie. Cette application ayant été réalisée par un groupe d'étudiant, il est plus que probable qu'elle présente des failles pouvant compromettre sa sécurité. Il faut donc trouver ces failles, les documenter et appliquer un correctif. Les corretifs appliqués ne doivent en rien changer le fonctionnement du service. Celui-ci remplir le même cahier des charges que pour l'étape 1. 
 
 
-## Description du système
+## <a name="description"></a>Description du système
 
-### DFD
+### <a name="dfd"></a>DFD
 
 ![image](dfd.jpg)
 
 
-### Biens
+### <a name="biens"></a>Biens
 
 Les biens que contient cette application sont: 
 - les informations client. Elles se composent : du nom de l’utilisateur, du hash de son mot de passe et de la liste de ses emails.
@@ -26,7 +36,7 @@ Les biens que contient cette application sont:
 
 
 
-### Périmètre de sécurisation
+### <a name="perimetre"></a>Périmètre de sécurisation
 
 Comme on peut le voir sur le diagramme ci-dessus, l’application possède une zone sécurisée qu’il n’est pas possible d’atteindre sans se connecter. Cette zone est séparée en deux parties : la partie utilisateur qui est accessible par les utilisateurs normaux et les administrateurs et la partie administrateur qui est accessible seulement par ces derniers.
 
@@ -34,11 +44,11 @@ La seule page qui est accessible sans s’authentifier est celle de login. Lors 
 
 Après avoir utilisé l’application, l’utilisateur peut se déconnecter ce qui a pour effet de supprimer les informations de session en cours et de le rediriger sur la page de login. Il ne peut plus accéder à la zone protégée tant qu’il ne s’authentifie pas à nouveau.
 
-## Sources de menaces
+## <a name="menaces"></a>Sources de menaces
 
 Les sources de menace pour cette application sont les personnes voulant avoir accès à des informations potentiellement confidentielles sur l’entreprise en accédant aux emails de ses utilisateurs. Cette catégorie comprend majoritairement des hackers recherchant, soit à exposer des informations de l’entreprise au public, soit à monnayer les informations récupérées avec l’entreprise. Cependant, nous pouvons également très bien trouver des *script-kiddies* voulant essayer divers outils trouvés sur le web sur une application réelle sans avoir véritablement de but autre que de s’amuser, de développer ses connaissances ou pour la gloire. 
 
-## Scénarios d'attaques
+## <a name="scenarios"></a>Scénarios d'attaques
 
 ### Login
 
@@ -61,7 +71,7 @@ Cette attaque est de type: "Tampering" et potentiellement, "Denial of Service".
 
 
 
-## Contre-mesures
+## <a name="contremesures"></a>Contre-mesures
 
 ### Login
 
@@ -70,8 +80,6 @@ Afin d’empêcher ce type d’attaque, nous avons rajouté un captcha à rempli
 De plus, nous avons rajouté un nombre minimal de caractère pour le mot de passe de l’utilisateur. Il faut maintenant que le mot de passe soit composé de 8 caractères ou plus, d'un chiffre, d'une miniscule et d'une majuscule au minimum. Cette modification permet de rallonger encore le temps nécessaire pour effectuer une attaque par brute-force
 
 L'introduction d'un captcha lors de la connexion peut être contraignant d'un point de vue utilisateur. Il serait peut-être plus judicieux, dans ce cas là, de demander la validation d'un captcha après 2 ou 3 tentatives de connexion échouée. Ainsi, l'utilisateur n'aura pas besoin d'utiliser de captcha lorsqu'il se connecte, ni même s'il fait une erreur dans l'introduction de son mot de passe. De plus, cette solution reste robuste face à une attaque de type brute-force.
-
-Une autre solution aurait été de stocker le nombre d'essais de connexion effectuée par un utilisateur ainsi que le timestamp du premier essai. Si jamais le nombre d'essai sur une période de temps choisi est trop grand, on bloque l'adresse IP de l'utilisateur pendant un moment. Cette solution permet d'éviter de déranger l'utilisateur en lui demandant de remplir un captcha à chaque tentative de connexion.
 
 ### Base de données
 
@@ -84,7 +92,7 @@ Afin de corriger ce problème, nous avons utilisé des fonctions permettant de t
 
 
 
-## Protections supplémentaires
+## <a name="protectionssupplementaires"></a>Protections supplémentaires
 
 ### HTTP Headers
 
@@ -110,7 +118,7 @@ Afin de donner le moins d'informations possible sur le code source, ajouter `err
 - **HTTPOnly flag**: lorsque ce *flag* est inclus dans les *headers* de la réponse *HTTP*, le cookie ne peut pas être accédé à l'aide d'un script provenant du client. Ainsi, même si le client est victime d'une attaque *XSS*, l'attaquant ne pourra pas récupérer son cookie.
 
 
-## Conclusion
+## <a name="conclusion"></a>Conclusion
 
 
 
