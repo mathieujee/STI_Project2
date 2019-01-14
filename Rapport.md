@@ -72,8 +72,6 @@ Les requêtes effectuées par l’application à la base de données étaient vu
 
 Cette attaque est de type : "Information disclosure" et "Tampering".
 
-### Session
-
 ### XSS
 Les entrées de l'utilisateur au niveau des emails n'étaient pas vérifiées. Il était donc possible d'envoyer un script à un autre utilisateur qui s'exécute lorsque le destinataire ouvre l'email. Une faille de ce type peut permettre à l'attaquant de voler des informations de session popre à l'utilisateur. Il pourrait aussi rendre l'utilisation du site impossible pour l'utilisateur.
 
@@ -101,10 +99,20 @@ Une autre solution aurait été de stocker le nombre d'essais de connexion effec
 
 Afin de se protéger contre ce type d’attaque, nous avons changé les requêtes effectuées à la base de données par des "prepared statement" afin de prévenir tout risque d’injections SQL. 
 
-### Session
-
 ### XSS
 Afin de corriger ce problème, nous avons utilisé des fonctions permettant de transformer les données rentrées par l'utilisateur en texte inoffensif. Nous avons appliqué ces fonctions sur le sujet et le contenu des emails envoyés afin d'empêcher toute attaque de ce type.
+
+
+
+### CSRF
+
+Afin de corriger cette faille, il faut générer un token personnel lors de la connexion d'un utilisateur:
+
+`$_SESSION["token"] = md5(uniqid(mt_rand(), true));`
+
+Ce token est stocké dans la session. 
+
+Prenons par exemple le formulaire d'envoi d'emails. Nous ajoutons un champ caché contenant le token de la session. Ensuite, lorsque la requête `POST` est envoyée, nous vérifier que le token reçu corresponde bien au token stocké dans la session. 
 
 
 
@@ -135,7 +143,7 @@ Afin de donner le moins d'informations possible sur le code source, ajouter `err
 
 
 ## <a name="conclusion"></a>Conclusion
-Après nos manipulations, l'application reçue est déjà beaucoup plus robuste. La prochaine étape est d'implémenter HTTPS pour chiffrer les transmissions. L'implémentation de ce protocole renforcerait grandement la robustesse de l'application.
+Après nos manipulations, l'application reçue est déjà beaucoup plus robuste. La prochaine étape est de'implémenter HTTPS pour chiffrer les transmissions. L'implémentation de ce protocole renforcerait grandement la robustesse de l'application.
 
 
 
