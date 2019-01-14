@@ -105,10 +105,6 @@ Le protocole *HTTP* propose, de base, quelques *headers* directement lié à la 
 
 - **HTTPOnly flag**: lorsque ce *flag* est inclus dans les *headers* de la réponse *HTTP*, le cookie ne peut pas être accédé à l'aide d'un script provenant du client. Ainsi, même si le client est victime d'une attaque *XSS*, l'attaquant ne pourra pas récupérer son cookie.
 
-### Offuscation du code source
-
-Offusquer le code source ne le rend jamais totalement illisible. Cependant, un attaquant désirant obtenir le code source passera du temps à le *reverse*. 
-
 
 ## Conclusion
 
