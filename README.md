@@ -18,9 +18,15 @@ Date: January 2019
 
    `CONTAINER_IP_ADRESS:8080`
 
-## TODOs
-Quand on ajoute un utilisateur qui existe déjà, le cas n'est pas géré. L'utilisateur reçoit un message annonçant la création de l'utilisateur alors que rien n'est fait (pas d'écrasement de l'utilisateur existant).
+## Comptes
 
-update user: si moins de paramètres fournis => ne pas modifier les anciens
+Utilisateur normal: 
 
-protection brute force
+​	compte: `toto`, mot de passe: `toto` 
+
+Admin:
+
+​	compte: `admin`, mot de passe: `toto`
+
+
+
