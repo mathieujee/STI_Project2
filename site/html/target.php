@@ -40,6 +40,7 @@
     $_SESSION["username"]=$username;
     $_SESSION["level"]=$data["permissionLevel"];
     $_SESSION["active"]=$data["active"];
+    $_SESSION["csrf_token"] = md5(uniqid(mt_rand(), true));
 
     if($_SESSION["active"]  == 0 ) {
        header("Location: index.php");

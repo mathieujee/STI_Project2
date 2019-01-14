@@ -35,6 +35,9 @@
         ?>>     <br/>
          <textarea type="text" name="email_text"></textarea>
          <br/>
+       
+      <input type='hidden' name="csrf" value="<?php echo $_SESSION['csrf_token'] ?>" />
+      
        <input type="submit" value="Send"/>
 	</form>
 
@@ -43,7 +46,8 @@
 		</form>
  <?php
 
-  if(isset($_POST['to']) and isset($_POST['object']) and isset($_POST["email_text"])) {
+  if(isset($_POST['to']) and isset($_POST['object']) and isset($_POST["email_text"]) and 
+     isset($_POST["csrf"]) and $_POST["csrf"] == $_SESSION["csrf_token"]) {
 
   class MyDB extends SQLite3 {
     function __construct() {
