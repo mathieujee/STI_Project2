@@ -71,6 +71,8 @@ De plus, nous avons rajouté un nombre minimal de caractère pour le mot de pass
 
 L'introduction d'un captcha lors de la connexion peut être contraignant d'un point de vue utilisateur. Il serait peut-être plus judicieux, dans ce cas là, de demander la validation d'un captcha après 2 ou 3 tentatives de connexion échouée. Ainsi, l'utilisateur n'aura pas besoin d'utiliser de captcha lorsqu'il se connecte, ni même s'il fait une erreur dans l'introduction de son mot de passe. De plus, cette solution reste robuste face à une attaque de type brute-force.
 
+Une autre solution aurait été de stocker le nombre d'essais de connexion effectuée par un utilisateur ainsi que le timestamp du premier essai. Si jamais le nombre d'essai sur une période de temps choisi est trop grand, on bloque l'adresse IP de l'utilisateur pendant un moment. Cette solution permet d'éviter de déranger l'utilisateur en lui demandant de remplir un captcha à chaque tentative de connexion.
+
 ### Base de données
 
 Afin de se protéger contre ce type d’attaque, nous avons changé les requêtes effectuées à la base de données par des "prepared statement" afin de prévenir tout risque d’injections SQL. 
