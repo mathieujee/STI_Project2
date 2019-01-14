@@ -60,6 +60,8 @@ Les entrées de l'utilisateur au niveau des emails n'étaient pas vérifiées. I
 
 Cette attaque est de type: "Tampering" et potentiellement, "Denial of Service".
 
+
+
 ## Contre-mesures
 
 ### Login
@@ -78,7 +80,35 @@ Afin de se protéger contre ce type d’attaque, nous avons changé les requête
 
 ### XSS
 Afin de corriger ce problème, nous avons utilisé des fonctions permettant de transformer les données rentrées par l'utilisateur en texte inoffensif. Nous avons appliqué ces fonctions sur le sujet et le contenu des emails envoyés afin d'empêcher toute attaque de ce type.
- 
+
+
+
+## Protections supplémentaires
+
+### HTTP Headers
+
+Le protocole *HTTP* propose, de base, quelques *headers* directement lié à la sécurité. Il serait dommage de ne pas les utiliser. 
+
+*(Certains des éléments qui vont suivre concerne le protocole HTTPS. Bien que le cadre de ce projet se limite au protocole HTTP, nous parlerons quand même de certaines pratiques de sécurité liées à HTTPS)*
+
+- **Strict-Transport-Security (HSTS):** Ce *header* force le *browser* à effectuer les requêtes vers notre domaine avec *HTTPS*. En communiquant uniquement en *HTTPS* avec le serveur, un attaquant se trouvant sur le même réseau que la victime ne pourra pas déchiffrer les données qu'il sniffe.
+
+  Ce *header* doit être activé depuis les fichiers de configuration du serveur.
+
+- **X-XSS-Protection:** *header* qui stope tout chargement de pages détectées comme *reflected cross-site scripting (XSS)*. Ce *header* protège seulement de certains type de *XSS*. 
+
+- **Content Security Policy (CSP):** Permet de se protéger contre certaine exécution de code malicieux. En créant une politique *CSP*, nous pouvons dicter au *browser* ce qu'il aura le droit de télécharger et d'afficher. 
+
+- **X-Frame-Options:** protection contre les attaques *clickjacking*. Indique au *browser* s'il a le droit ou non d'afficher le contenu compris dans les balises `<frame>`, `<iframe>`, `<embed>` et`<object>`. Bien que dans ce projet, aucune de ces balises n'est présentes, c'est une bonne pratique d'activer ce *header*. 
+
+###Cookie
+
+- **HTTPOnly flag**: lorsque ce *flag* est inclus dans les *headers* de la réponse *HTTP*, le cookie ne peut pas être accédé à l'aide d'un script provenant du client. Ainsi, même si le client est victime d'une attaque *XSS*, l'attaquant ne pourra pas récupérer son cookie.
+
+### Offuscation du code source
+
+Offusquer le code source ne le rend jamais totalement illisible. Cependant, un attaquant désirant obtenir le code source passera du temps à le *reverse*. 
+
 
 ## Conclusion
 
