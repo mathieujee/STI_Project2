@@ -6,7 +6,6 @@ Date: Janvier 2019
 
 ## Table of content
 
-**error_reporting(0);**
 
 ## Introduction
 Le but de ce projet est de sécuriser une application de messagerie. Cette application ayant été réalisée par un groupe d'étudiant, il est plus que probable qu'elle présente des failles pouvant compromettre sa sécurité. Il faut donc trouver ces failles, les documenter et appliquer un correctif. Les corretifs appliqués ne doivent en rien changer le fonctionnement du service. Celui-ci remplir le même cahier des charges que pour l'étape 1. 
@@ -100,6 +99,9 @@ Le protocole *HTTP* propose, de base, quelques *headers* directement lié à la 
 - **Content Security Policy (CSP):** Permet de se protéger contre certaine exécution de code malicieux. En créant une politique *CSP*, nous pouvons dicter au *browser* ce qu'il aura le droit de télécharger et d'afficher. 
 
 - **X-Frame-Options:** protection contre les attaques *clickjacking*. Indique au *browser* s'il a le droit ou non d'afficher le contenu compris dans les balises `<frame>`, `<iframe>`, `<embed>` et`<object>`. Bien que dans ce projet, aucune de ces balises n'est présentes, c'est une bonne pratique d'activer ce *header*. 
+
+### Error Reporting
+Afin de donner le moins d'informations possible sur le code source, ajouter `error_reporting(0);` au début de chaque fichier permet de ne rien afficher en cas d'erreur.
 
 ### Cookie
 
