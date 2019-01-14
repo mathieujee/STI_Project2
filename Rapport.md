@@ -129,6 +129,6 @@ Afin de donner le moins d'informations possible sur le code source, ajouter `err
 
 
 ## <a name="conclusion"></a>Conclusion
-
+Après nos manipulations, l'application reçue est déjà beaucoup plus robuste. La prochaine étape est de'implémenter HTTPS pour chiffrer les transmissions. L'implémentation de ce protocole renforcerait grandement la robustesse de l'application.
 
 
