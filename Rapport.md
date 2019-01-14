@@ -6,16 +6,16 @@ Date: Janvier 2019
 
 ## Table of content
 
-[Introduction](#introduction)
-[Description du système](#description)
-[DFD](#dfd)
-[Biens](#biens)
-[Périmètre de sécurisation](#perimetre)
-[Sources de menaces](#menaces)
-[Scénarios d'attaques](#scénarios)
-[Contre-mesures](#contremesures)
-[Protections supplémentaires](#protectionssupplementaires)
-[Conclusion](#conclusion)
+[Introduction](#introduction) 
+[Description du système](#description) 
+[DFD](#dfd) 
+[Biens](#biens) 
+[Périmètre de sécurisation](#perimetre) 
+[Sources de menaces](#menaces) 
+[Scénarios d'attaques](#scénarios) 
+[Contre-mesures](#contremesures) 
+[Protections supplémentaires](#protectionssupplementaires) 
+[Conclusion](#conclusion) 
 
 ## <a name="introduction"></a>Introduction
 Le but de ce projet est de sécuriser une application de messagerie. Cette application ayant été réalisée par un groupe d'étudiant, il est plus que probable qu'elle présente des failles pouvant compromettre sa sécurité. Il faut donc trouver ces failles, les documenter et appliquer un correctif. Les corretifs appliqués ne doivent en rien changer le fonctionnement du service. Celui-ci remplir le même cahier des charges que pour l'étape 1. 
